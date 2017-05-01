@@ -25,6 +25,7 @@ const AnimateShapePath = function animateShapePath(props) {
         d,
         transform,
       }}
+      flexDuration
     >
       {data => (
         <path

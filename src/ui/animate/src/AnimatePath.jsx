@@ -23,6 +23,7 @@ const AnimatePath = function animatePath(props) {
       data={{
         d,
       }}
+      flexDuration
     >
       {data => (
         <path
