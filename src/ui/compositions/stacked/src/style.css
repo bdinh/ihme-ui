@@ -1,14 +1,12 @@
 .legend {
   height: 100px;
   width: 100%;
+  /*display: flex;*/
 }
 
 .legend-wrapper {
   position: absolute;
   right: 0px;
-  display: inline-block;
-  margin-right: auto;
-  margin-left: auto;
   /*flex-direction: row;*/
 }
 
@@ -26,7 +24,6 @@
 
 .title {
   text-align: center;
-  display: block;
   /*width: 100%;*/
 }
 

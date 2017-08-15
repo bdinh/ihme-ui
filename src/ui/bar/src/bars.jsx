@@ -43,6 +43,7 @@ export default class Bars extends PureComponent {
 
   render() {
     const {
+      align,
       bandPadding,
       bandPaddingInner,
       bandPaddingOuter,
@@ -84,12 +85,17 @@ export default class Bars extends PureComponent {
 
 
     // Check the padding properties and sets it accordingly.
+    // wrap these into it's own function
     if (bandPaddingOuter) {
       ordinal.paddingOuter(bandPaddingOuter);
     } else if (bandPaddingInner) {
       ordinal.paddingInner(bandPaddingInner);
     } else {
       ordinal.padding(bandPadding);
+    }
+
+    if (align) {
+      ordinal.align(align);
     }
 
     return (

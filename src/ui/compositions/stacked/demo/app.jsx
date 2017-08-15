@@ -11,17 +11,19 @@ import {
 } from 'lodash';
 
 
-import Barchart from './../../barchart/src/barchart';
+import StackedBarChart from './../../stacked/src/stacked';
 
 import { dataGenerator } from '../../../../utils';
 
+// These fields are specific to the dataset so these are hardcoded for now
+// Will need to change in order to support different data
 const yearField = 'year_id';
 const populationField = 'population';
 const locationField = 'location';
 
 const data = dataGenerator({
   primaryKeys: [
-    { name: 'location', values: ['Brazil', 'Russia', 'India', 'China', 'Mexico', 'Indonesia', 'Nigeria', 'Vietnam'] }
+    { name: 'location', values: ['Brazil', 'Russia', 'India', 'China', 'Mexico'] }
   ],
   valueKeys: [
     { name: populationField, range: [100, 900], uncertainty: true }
@@ -33,10 +35,7 @@ const locationData = [
   { location: 'Russia', values: data.filter((datum) => { return datum.location === 'Russia'; }) },
   { location: 'India', values: data.filter((datum) => { return datum.location === 'India'; }) },
   { location: 'China', values: data.filter((datum) => { return datum.location === 'China'; }) },
-  { location: 'Mexico', values: data.filter((datum) => { return datum.location === 'Mexico'; }) },
-  { location: 'Indonesia', values: data.filter((datum) => { return datum.location === 'Indonesia'; }) },
-  { location: 'Nigeria', values: data.filter((datum) => { return datum.location === 'Nigeria'; }) },
-  { location: 'Vietnam', values: data.filter((datum) => { return datum.location === 'Vietnam'; }) }
+  { location: 'Mexico', values: data.filter((datum) => { return datum.location === 'Mexico'; }) }
 ];
 
 // Should these be passed or calculated from given dataset within the BarChart component?
@@ -45,11 +44,56 @@ const yearFieldDomain = map(uniqBy(data, yearField), (obj) => { return (obj[year
 const locationFieldDomain = map(uniqBy(locationData, locationField), (obj) => { return (obj[locationField]); });
 const colorScale = scaleOrdinal(schemeCategory10);
 
-// create items object for the legend
+// create items given the data and the fields specified
 const items = [
   {
-    label: 'Total Population',
-    shapeColor: 'steelblue',
+    label: '2000',
+    shapeColor: colorScale('2000'),
+    shapeType: 'square'
+  },
+  {
+    label: '2001',
+    shapeColor: colorScale('2001'),
+    shapeType: 'square'
+  },
+  {
+    label: '2002',
+    shapeColor: colorScale('2002'),
+    shapeType: 'square'
+  },
+  {
+    label: '2003',
+    shapeColor: colorScale('2003'),
+    shapeType: 'square'
+  },
+  {
+    label: '2004',
+    shapeColor: colorScale('2004'),
+    shapeType: 'square'
+  },
+  {
+    label: '2005',
+    shapeColor: colorScale('2005'),
+    shapeType: 'square'
+  },
+  {
+    label: '2006',
+    shapeColor: colorScale('2006'),
+    shapeType: 'square'
+  },
+  {
+    label: '2007',
+    shapeColor: colorScale('2007'),
+    shapeType: 'square'
+  },
+  {
+    label: '2008',
+    shapeColor: colorScale('2008'),
+    shapeType: 'square'
+  },
+  {
+    label: '2009',
+    shapeColor: colorScale('2009'),
     shapeType: 'square'
   }
 ];
@@ -71,25 +115,24 @@ class App extends React.Component {
   }
 
   onClick(event, datum) {
-    console.log(`${event.type}::${datum[yearField]},${datum[populationField]}`);
+    console.log(`${event.type}::${datum}`);
     this.setState({
       selectedItems: xor(this.state.selectedItems, [datum]),
     });
   };
 
   onMouseLeave(event, datum) {
-    console.log(`${event.type}::${datum[yearField]},${datum[populationField]}`);
+    console.log(`${event.type}::${datum}`);
     this.setState({
       focus: {},
     });
   };
 
   onMouseMove(event, datum) {
-    console.log(`${event.type}::${datum[yearField]},${datum[populationField]}`);
-  };
+    console.log(`${event.type}::${datum}`);  };
 
   onMouseOver(event, datum) {
-    console.log(`${event.type}::${datum[yearField]},${datum[populationField]}`);
+    console.log(`${event.type}::${datum}`);
     this.setState({
       focus: datum,
     });
@@ -98,32 +141,39 @@ class App extends React.Component {
   render() {
     return (
       <div id="wrapper">
-        <Barchart
-          data={data.filter((datum) => { return datum.location === 'India'; })}
-          dataAccessors={{
-            fill: yearField,
-            key: 'id',
-            stack: yearField,
-            value: populationField
-          }}
-          focus={this.state.focus}
+        <StackedBarChart
+          colorScale={colorScale}
           labelObject={{
-            title: "Population In India 2000-2009",
-            xLabel: "Years",
-            yLabel: "Population"
+            title: "Population Between 2000-2009",
+            yLabel: "Population",
+            xLabel: "Country"
           }}
+          legendObject={items}
           legendKey={{
             labelKey: "label",
             shapeColorKey: "shapeColor",
             shapeTypeKey: "shapeType",
           }}
-          legendObject={items}
           scaleObject={{
-            xDomain: yearFieldDomain,
-            yDomain: populationFieldDomain,
             xScale: "band",
-            yScale:"linear"
+            yScale:"linear",
+            xDomain: locationFieldDomain,
+            yDomain: populationFieldDomain
           }}
+          data={locationData}
+          dataAccessors={{
+            fill: yearField,
+            key: 'id',
+            stack: locationField,
+            layer: yearField,
+            value: populationField,
+          }}
+          fieldAccessors={{
+            data: 'values',
+            key: 'key',
+          }}
+          layerDomain={yearFieldDomain}
+          focus={this.state.focus}
           onClick={this.onClick}
           onMouseLeave={this.onMouseLeave}
           onMouseMove={this.onMouseMove}

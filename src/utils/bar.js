@@ -18,16 +18,16 @@ export function isDefault(type) {
   return (type.toLowerCase() === "default".toLowerCase());
 }
 
-export function stackedDataArray(obj, xField, yField, otherField, dataField, xDomain) {
+export function stackedDataArray(obj, layerField, valueField, stackField, dataField, xDomain) {
   let i = 0; // generates unique id number for each datum that binds to each rect
   const categoricalData = obj.map( (data) => {
       const insertObject = {};
-     insertObject[otherField] = data[otherField];
+     insertObject[stackField] = data[stackField];
      insertObject.id = i;
      i++;
      data[dataField].map( datum => {
-        const year = datum[xField];
-        insertObject[year] = datum[yField];
+        const year = datum[layerField];
+        insertObject[year] = datum[valueField];
       });
       return insertObject;
     });

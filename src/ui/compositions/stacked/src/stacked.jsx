@@ -16,11 +16,11 @@ import {
 import styles from './style.css';
 import AxisChart from './../../../axis-chart';
 import { XAxis, YAxis } from './../../../axis';
-import Bars from './../../../bar/src/bars';
+import MultiBars from './../../../bar/src/multi-bars';
 import ResponsiveContainer from '../../../responsive-container';
 import Legend from './../../../legend';
 
-export default class BarChart extends PureComponent {
+export default class StackedBarChart extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -56,39 +56,40 @@ export default class BarChart extends PureComponent {
     return (
       <div className={classNames(styles.legend, legendClassName)} style={legendStyle}>
         <div className={styles['legend-wrapper']}>
-            <Legend
-              items={legendObject}
-              labelKey={legendKey.labelKey}
-              shapeColorKey={legendKey.shapeColorKey}
-              shapeTypeKey={legendKey.shapeTypeKey}
-            />
+          <Legend
+            items={legendObject}
+            labelKey={legendKey.labelKey}
+            shapeColorKey={legendKey.shapeColorKey}
+            shapeTypeKey={legendKey.shapeTypeKey}
+          />
         </div>
       </div>
     );
   }
 
-  renderChart() {
+  renderStackedBarChart() {
     const {
-      chartStyle,
       data,
-      dataAccessors,
       fill,
+      dataAccessors,
+      colorScale,
+      chartStyle,
+      fieldAccessors,
       focus,
       labelObject,
+      layerDomain,
       onClick,
       onMouseOver,
       onMouseLeave,
       onMouseMove,
-      orientation,
       scaleObject,
-      bandObject,
     } = this.props;
 
     return (
       <div className={classNames(styles.chart, chartStyle)}>
         {this.renderTitle()}
+        {this.renderLegend()}
         <ResponsiveContainer>
-          {this.renderLegend()}
           <AxisChart
             xDomain={scaleObject.xDomain}
             yDomain={scaleObject.yDomain}
@@ -101,24 +102,21 @@ export default class BarChart extends PureComponent {
             <YAxis
               label={labelObject.yLabel ? labelObject.yLabel: 'Y Axis'}
             />
-            <Bars
-              align={bandObject.align}
-              bandPaddingOuter={bandObject.bandPaddingOuter}
-              bandPadding={bandObject.bandPadding}
-              bandPaddingInner={bandObject.bandPaddingInner}
-              dataAccessors={dataAccessors}
+            <MultiBars
+              colorScale={colorScale}
               data={data}
-              fill={fill}
+              dataAccessors={dataAccessors}
+              fieldAccessors={fieldAccessors}
               focus={focus}
+              layerDomain={layerDomain}
               onClick={onClick}
               onMouseOver={onMouseOver}
               onMouseMove={onMouseMove}
               onMouseLeave={onMouseLeave}
-              orientation={orientation ? orientation : null}
               style={chartStyle}
               selection={this.state.selectedItems}
-            >
-            </Bars>
+              stacked
+            />
           </AxisChart>
         </ResponsiveContainer>
       </div>
@@ -130,13 +128,13 @@ export default class BarChart extends PureComponent {
 
     return(
       <div className={classNames(styles['chart-container'], className)} style={style}>
-        {this.renderChart()}
+        {this.renderStackedBarChart()}
       </div>
     );
   }
 }
 
-BarChart.propTypes = {
+StackedBarChart.propTypes = {
   /**
    * Ordinal scaleBand align property. Sets the alignment of `<Bars />`s to the to the
    * specified value which must be in the range [0, 1].
@@ -321,11 +319,9 @@ BarChart.propTypes = {
   }),
 };
 
-BarChart.defaultProps = {
-  orientation: 'vertical',
-  fill: 'steelblue',
-  bandObject: {
-    align: 0.5
-  }
-};
+StackedBarChart.defaultProps = {
 
+
+
+
+};
