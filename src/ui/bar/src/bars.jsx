@@ -22,6 +22,7 @@ import {
   PureComponent,
   stateFromPropUpdates,
   getRenderingProps,
+  setBandProps,
 } from '../../../utils';
 
 import Bar from './bar';
@@ -39,6 +40,11 @@ export default class Bars extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     this.setState(stateFromPropUpdates(Bars.propUpdates, this.props, nextProps, this.state));
+  }
+
+  setBandPadding() {
+
+
   }
 
   render() {
@@ -85,18 +91,8 @@ export default class Bars extends PureComponent {
 
 
     // Check the padding properties and sets it accordingly.
-    // wrap these into it's own function
-    if (bandPaddingOuter) {
-      ordinal.paddingOuter(bandPaddingOuter);
-    } else if (bandPaddingInner) {
-      ordinal.paddingInner(bandPaddingInner);
-    } else {
-      ordinal.padding(bandPadding);
-    }
+    setBandProps(ordinal, align, bandPadding, bandPaddingInner, bandPaddingOuter);
 
-    if (align) {
-      ordinal.align(align);
-    }
 
     return (
       <g
@@ -108,7 +104,7 @@ export default class Bars extends PureComponent {
         {
           map(sortedData, (datum) => {
             const key = stacked ? propResolver(datum.data, dataAccessors.key) : propResolver(datum, dataAccessors.key);
-            const fillValue = propResolver(datum, dataAccessors.fill || dataAccessors.stack); // take a look at later
+            const fillValue = propResolver(datum, dataAccessors.fill || dataAccessors.stack);
             const focusedDatumKey = focus && propResolver(focus, dataAccessors.key);
 
             const xValue = grouped ? propResolver(datum, dataAccessors.layer) :

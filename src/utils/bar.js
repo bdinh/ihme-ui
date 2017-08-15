@@ -70,6 +70,22 @@ export function getRenderingProps(datum, orientation, stacked, grouped, ordinal,
   return result;
 }
 
+
+export function setBandProps(scale, align, bandPadding, bandPaddingInner, bandPaddingOuter) {
+  if (bandPaddingOuter) {
+    scale.paddingOuter(bandPaddingOuter);
+  } else if (bandPaddingInner) {
+    scale.paddingInner(bandPaddingInner);
+  } else {
+    scale.padding(bandPadding);
+  }
+
+  if (align) {
+    scale.align(align);
+  }
+  return scale;
+}
+
 export function stacked(props) {
   return Object.prototype.hasOwnProperty.call(props, 'stacked');
 }

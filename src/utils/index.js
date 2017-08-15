@@ -10,6 +10,7 @@ export {
   stacked,
   grouped,
   getRenderingProps,
+  setBandProps,
 } from './bar';
 
 export {

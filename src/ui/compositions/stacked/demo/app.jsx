@@ -111,7 +111,6 @@ class App extends React.Component {
       'onMouseMove',
       'onMouseOver',
     ]);
-
   }
 
   onClick(event, datum) {
@@ -142,24 +141,6 @@ class App extends React.Component {
     return (
       <div id="wrapper">
         <StackedBarChart
-          colorScale={colorScale}
-          labelObject={{
-            title: "Population Between 2000-2009",
-            yLabel: "Population",
-            xLabel: "Country"
-          }}
-          legendObject={items}
-          legendKey={{
-            labelKey: "label",
-            shapeColorKey: "shapeColor",
-            shapeTypeKey: "shapeType",
-          }}
-          scaleObject={{
-            xScale: "band",
-            yScale:"linear",
-            xDomain: locationFieldDomain,
-            yDomain: populationFieldDomain
-          }}
           data={locationData}
           dataAccessors={{
             fill: yearField,
@@ -168,16 +149,34 @@ class App extends React.Component {
             layer: yearField,
             value: populationField,
           }}
+          colorScale={colorScale}
           fieldAccessors={{
             data: 'values',
             key: 'key',
           }}
-          layerDomain={yearFieldDomain}
           focus={this.state.focus}
+          labelObject={{
+            title: "Population Between 2000-2009",
+            yLabel: "Population",
+            xLabel: "Country"
+          }}
+          layerDomain={yearFieldDomain}
+          legendObject={items}
+          legendKey={{
+            labelKey: "label",
+            shapeColorKey: "shapeColor",
+            shapeTypeKey: "shapeType",
+          }}
           onClick={this.onClick}
           onMouseLeave={this.onMouseLeave}
           onMouseMove={this.onMouseMove}
           onMouseOver={this.onMouseOver}
+          scaleObject={{
+            xScale: "band",
+            yScale:"linear",
+            xDomain: locationFieldDomain,
+            yDomain: populationFieldDomain
+          }}
           selection={this.state.selectedItems}
         />
       </div>
