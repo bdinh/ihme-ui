@@ -1,1 +1,1 @@
-export { default as default } from '../../../../../../barchart copy/src/barchart';
+export { default as default } from './src/barchart';

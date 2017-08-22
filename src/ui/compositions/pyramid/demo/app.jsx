@@ -1,23 +1,30 @@
 import React from 'react';
-import { schemeCategory10, scaleOrdinal } from 'd3';
 import ReactDOM from 'react-dom';
-import {
-  bindAll,
-  xor,
-  maxBy,
-  minBy,
-  map,
-  uniqBy,
-} from 'lodash';
+
+import AxisChart from './../../../axis-chart';
+import { XAxis, YAxis } from './../../../axis';
+import { scaleBand, scaleLinear } from 'd3';
+import range from 'lodash/range';
+// import { ResponsiveContainer } from '../../';
 
 
-import Barchart from './../../barchart/src/barchart';
-
+import { bindAll, maxBy, minBy, map, uniqBy, xor } from 'lodash';
 import { dataGenerator } from '../../../../utils';
+import { schemeCategory10, scaleOrdinal, max } from 'd3';
+
 
 const yearField = 'year_id';
 const populationField = 'population';
 const locationField = 'location';
+
+import Bars from '../../../bar/src/bar';
+
+const padding = {
+  top: 40,
+  right: 50,
+  left: 50,
+  bottom: 40,
+};
 
 const data = dataGenerator({
   primaryKeys: [
@@ -39,25 +46,17 @@ const locationData = [
   { location: 'Vietnam', values: data.filter((datum) => { return datum.location === 'Vietnam'; }) }
 ];
 
-// Should these be passed or calculated from given dataset within the BarChart component?
+
 const populationFieldDomain = [minBy(data, populationField)[populationField], maxBy(data, populationField)[populationField]];
 const yearFieldDomain = map(uniqBy(data, yearField), (obj) => { return (obj[yearField]); });
 const locationFieldDomain = map(uniqBy(locationData, locationField), (obj) => { return (obj[locationField]); });
 const colorScale = scaleOrdinal(schemeCategory10);
 
-// create items object for the legend
-const items = [
-  {
-    label: 'Total Population',
-    shapeColor: 'steelblue',
-    shapeType: 'square'
-  }
-];
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state =  {
       selectedItems: [],
     };
 
@@ -67,8 +66,8 @@ class App extends React.Component {
       'onMouseMove',
       'onMouseOver',
     ]);
-
   }
+
 
   onClick(event, datum) {
     console.log(`${event.type}::${datum[yearField]},${datum[populationField]}`);
@@ -95,42 +94,29 @@ class App extends React.Component {
     });
   };
 
+
   render() {
-    return (
-      <div id="wrapper">
-        <Barchart
-          data={data.filter((datum) => { return datum.location === 'India'; })}
-          dataAccessors={{
-            fill: yearField,
-            key: 'id',
-            stack: yearField,
-            value: populationField
-          }}
-          focus={this.state.focus}
-          labelObject={{
-            title: "Population In India 2000-2009",
-            xLabel: "Years",
-            yLabel: "Population"
-          }}
-          legend
-          legendKey={{
-            labelKey: "label",
-            shapeColorKey: "shapeColor",
-            shapeTypeKey: "shapeType",
-          }}
-          legendObject={items}
-          scaleObject={{
-            xDomain: yearFieldDomain,
-            yDomain: populationFieldDomain,
-            xScale: "band",
-            yScale:"linear"
-          }}
-          onClick={this.onClick}
-          onMouseLeave={this.onMouseLeave}
-          onMouseMove={this.onMouseMove}
-          onMouseOver={this.onMouseOver}
-          selection={this.state.selectedItems}
-        />
+
+    const height = 500;
+    const width = 500;
+
+    console.log(data.filter((datum) => { return datum.location === 'India'; }));
+
+    return(
+      <div>
+        <svg width={`${width}px`} height={`${height}px`}>
+          <g>
+            <XAxis
+              autoFilterTickValues
+              scale={scaleBand().domain(range(1970, 2011)).range([0, width - (padding.right + padding.left)])}
+              width={width - (padding.right + padding.left)}
+              height={height - (padding.bottom + padding.top)}
+              orientation="bottom"
+              label="Top XAxis"
+            />
+          </g>
+        </svg>
+
       </div>
     );
   }

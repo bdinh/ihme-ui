@@ -11,6 +11,14 @@ export {
   grouped,
   getRenderingProps,
   setBandProps,
+  getXPosition,
+  getXPositionStack,
+  getYPosition,
+  getYPositionStack,
+  getHeight,
+  getHeightStack,
+  getWidth,
+  getWidthStack,
 } from './bar';
 
 export {

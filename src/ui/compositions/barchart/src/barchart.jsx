@@ -75,6 +75,7 @@ export default class BarChart extends PureComponent {
       fill,
       focus,
       labelObject,
+      legend,
       onClick,
       onMouseOver,
       onMouseLeave,
@@ -88,7 +89,7 @@ export default class BarChart extends PureComponent {
       <div className={classNames(styles.chart, chartStyle)}>
         {this.renderTitle()}
         <ResponsiveContainer>
-          {this.renderLegend()}
+          {legend ? this.renderLegend() : null}
           <AxisChart
             xDomain={scaleObject.xDomain}
             yDomain={scaleObject.yDomain}
@@ -181,6 +182,46 @@ BarChart.propTypes = {
   }),
 
   /**
+   * inline styles applied to div wrapping the chart
+   */
+  chartStyle: PropTypes.object,
+
+  /**
+   * Array of datum objects
+   */
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+
+  /**
+   * Accessors on datum objects
+   *   fill: property on datum to provide fill (will be passed to `props.colorScale`)
+   *   key: unique dimension of datum (required)
+   *   stack: property on datum to position bars svg element rect in x-direction
+   *   value: property on datum to position bars svg element rect in y-direction
+   *   layer: property on datum to position bars svg element rect in categorical format. (grouped/stacked)
+   *
+   * Each accessor can either be a string or function. If a string, it is assumed to be the name of a
+   * property on datum objects; full paths to nested properties are supported (e.g., { `x`: 'values.year', ... }).
+   * If a function, it is passed datum objects as its first and only argument.
+   */
+  dataAccessors: PropTypes.shape({
+    fill: PropTypes.string,
+    key: PropTypes.string.isRequired,
+    stack: PropTypes.string,
+    value: PropTypes.string,
+    layer: PropTypes.string,
+  }).isRequired,
+
+  /**
+   * If `props.colorScale` is undefined, each `<Bar />` will be given this same fill value.
+   */
+  fill: PropTypes.string,
+
+  /**
+   * The datum object corresponding to the `<Bar />` currently focused.
+   */
+  focus: PropTypes.object,
+
+  /**
    * Accessors to label properties
    *    title: property used to access the title of the composite component
    *    xLabel: property used to access the xLabel of the composite component
@@ -191,17 +232,6 @@ BarChart.propTypes = {
     xLabel: PropTypes.string,
     yLabel: PropTypes.string
   }),
-
-  /**
-   * className applied to div wrapping the title
-   */
-  titleClassName: CommonPropTypes.className,
-
-  /**
-   * inline styles applied to div wrapping the title
-   */
-  titleStyle: PropTypes.object,
-
 
   /**
    * Accessors to legend properties
@@ -233,49 +263,6 @@ BarChart.propTypes = {
   legendStyle: PropTypes.object,
 
   /**
-   * Array of datum objects
-   */
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-
-  /**
-   * If `props.colorScale` is undefined, each `<Bar />` will be given this same fill value.
-   */
-  fill: PropTypes.string,
-
-  /**
-   * Accessors on datum objects
-   *   fill: property on datum to provide fill (will be passed to `props.colorScale`)
-   *   key: unique dimension of datum (required)
-   *   stack: property on datum to position bars svg element rect in x-direction
-   *   value: property on datum to position bars svg element rect in y-direction
-   *   layer: property on datum to position bars svg element rect in categorical format. (grouped/stacked)
-   *
-   * Each accessor can either be a string or function. If a string, it is assumed to be the name of a
-   * property on datum objects; full paths to nested properties are supported (e.g., { `x`: 'values.year', ... }).
-   * If a function, it is passed datum objects as its first and only argument.
-   */
-  dataAccessors: PropTypes.shape({
-    fill: PropTypes.string,
-    key: PropTypes.string.isRequired,
-    stack: PropTypes.string,
-    value: PropTypes.string,
-    layer: PropTypes.string,
-  }).isRequired,
-
-
-  /**
-   * inline styles applied to div wrapping the chart
-   */
-  chartStyle: PropTypes.object,
-
-
-  /**
-   * The datum object corresponding to the `<Bar />` currently focused.
-   */
-  focus: PropTypes.object,
-
-
-  /**
    * onClick callback.
    * signature: (SyntheticEvent, datum, instance) => {...}
    */
@@ -305,7 +292,6 @@ BarChart.propTypes = {
    */
   orientation: PropTypes.string,
 
-
   /**
    * Accessors to scales properties
    *    xDomain: property used to access the xDomain of the scales object
@@ -319,6 +305,17 @@ BarChart.propTypes = {
     xScale: PropTypes.string,
     yScale: PropTypes.string,
   }),
+
+  /**
+   * className applied to div wrapping the title
+   */
+  titleClassName: CommonPropTypes.className,
+
+  /**
+   * inline styles applied to div wrapping the title
+   */
+  titleStyle: PropTypes.object,
+
 };
 
 BarChart.defaultProps = {

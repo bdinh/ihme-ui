@@ -138,6 +138,9 @@ class App extends React.Component {
   };
 
   render() {
+
+    // console.log(locationData);
+
     return (
       <div id="wrapper">
         <StackedBarChart
@@ -157,8 +160,8 @@ class App extends React.Component {
           focus={this.state.focus}
           labelObject={{
             title: "Population Between 2000-2009",
-            yLabel: "Population",
-            xLabel: "Country"
+            yLabel: "Country",
+            xLabel: "Population"
           }}
           layerDomain={yearFieldDomain}
           legendObject={items}
@@ -171,11 +174,12 @@ class App extends React.Component {
           onMouseLeave={this.onMouseLeave}
           onMouseMove={this.onMouseMove}
           onMouseOver={this.onMouseOver}
+          orientation="horizontal"
           scaleObject={{
-            xScale: "band",
-            yScale:"linear",
-            xDomain: locationFieldDomain,
-            yDomain: populationFieldDomain
+            xScale: "linear",
+            yScale:"band",
+            xDomain: populationFieldDomain,
+            yDomain: locationFieldDomain
           }}
           selection={this.state.selectedItems}
         />

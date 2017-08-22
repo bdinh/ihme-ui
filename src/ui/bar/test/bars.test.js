@@ -187,8 +187,6 @@ describe('<Bars />', () => {
       });
     });
 
-    console.log(spyMap);
-
     it('uses property access if a dataAccessor is not a function', () => {
       const wrapper = shallow(
         <Bars
@@ -209,11 +207,6 @@ describe('<Bars />', () => {
 
           const spyCall = spyConfig.spy.getCall(idx);
           const barDatum = bar.prop('datum');
-
-          // needs fixing
-          // console.log(barDatum);
-          // console.log(spyConfig.accessor);
-          // console.log(spyCall.calledWith(barDatum[spyConfig.accessor]));
 
           // Not always true
           // expect(spyCall.calledWith(barDatum[spyMap.accessor])).to.be.true;

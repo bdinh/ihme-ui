@@ -133,9 +133,22 @@ Bar.propTypes = {
   datum: PropTypes.object,
 
   /**
+   * Accessors for objects within `props.data`
+   *   color: (optional) color data as input to color scale.
+   *   data: data provided to child components. default: 'values'
+   *   key: unique key to apply to child components. used as input to color scale if color field is not specified. default: 'key'
+   */
+  fieldAccessors: PropTypes.shape({
+    color: CommonPropTypes.dataAccessor,
+    data: CommonPropTypes.dataAccessor.isRequired,
+    key: CommonPropTypes.dataAccessor.isRequired,
+  }),
+
+  /**
    * Fill color for svg element rect.
    */
   fill: PropTypes.string,
+
 
   /**
    * Whether svg element rect has focus.

@@ -42,11 +42,6 @@ export default class Bars extends PureComponent {
     this.setState(stateFromPropUpdates(Bars.propUpdates, this.props, nextProps, this.state));
   }
 
-  setBandPadding() {
-
-
-  }
-
   render() {
     const {
       align,
@@ -89,10 +84,8 @@ export default class Bars extends PureComponent {
     const ordinal = (isVertical(orientation) ? scales.x : scales.y);
     const linear = (isVertical(orientation) ? scales.y : scales.x);
 
-
     // Check the padding properties and sets it accordingly.
     setBandProps(ordinal, align, bandPadding, bandPaddingInner, bandPaddingOuter);
-
 
     return (
       <g
@@ -112,8 +105,8 @@ export default class Bars extends PureComponent {
 
             const yValue = propResolver(datum, !stacked ? dataAccessors.value : 1);
 
-            const renderingProps = getRenderingProps(datum, orientation, stacked, grouped, ordinal, linear, layerOrdinal,
-                                                  xValue, yValue, height);
+            const renderingProps = getRenderingProps(datum, grouped, height, layerOrdinal, linear, ordinal, orientation,
+                                                    stacked, xValue, yValue);
 
             return (
               <Bar
