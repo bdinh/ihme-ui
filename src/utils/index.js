@@ -4,6 +4,25 @@ export {
 } from './array';
 
 export {
+  isDefault,
+  isVertical,
+  stackedDataArray,
+  stacked,
+  grouped,
+  getRenderingProps,
+  setBandProps,
+  getXPosition,
+  getXPositionStack,
+  getYPosition,
+  getYPositionStack,
+  getHeight,
+  getHeightStack,
+  getWidth,
+  getWidthStack,
+} from './bar';
+
+
+export {
   colorSteps,
   baseColorScale,
 } from './colors';
@@ -85,3 +104,4 @@ export {
 export {
   getBackgroundColor,
 } from './window';
+

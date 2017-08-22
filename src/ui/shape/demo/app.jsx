@@ -44,6 +44,8 @@ const shapeScale = scaleOrdinal()
 
 const colorScale = scaleOrdinal(schemeCategory10);
 
+console.log(locationData);
+
 class App extends React.Component {
   constructor(props) {
     super(props);
