@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
-import { scaleLinear, scaleBand } from 'd3';
+// import { scaleLinear, scaleBand } from 'd3';
 
 import {
   castArray,
@@ -42,7 +42,7 @@ export default class BarChart extends PureComponent {
       <div className={classNames(styles.title, titleClassName)} style={titleStyle}>
         {labelObject.title}
       </div>
-    )
+    );
   }
 
   renderLegend() {
@@ -97,10 +97,10 @@ export default class BarChart extends PureComponent {
             yScaleType={scaleObject.yScale}
           >
             <XAxis
-              label={labelObject.xLabel ? labelObject.xLabel: 'X Axis'}
+              label={labelObject.xLabel ? labelObject.xLabel : 'X Axis'}
             />
             <YAxis
-              label={labelObject.yLabel ? labelObject.yLabel: 'Y Axis'}
+              label={labelObject.yLabel ? labelObject.yLabel : 'Y Axis'}
             />
             <Bars
               align={bandObject.align}
@@ -115,11 +115,10 @@ export default class BarChart extends PureComponent {
               onMouseOver={onMouseOver}
               onMouseMove={onMouseMove}
               onMouseLeave={onMouseLeave}
-              orientation={orientation ? orientation : null}
+              orientation={orientation}
               style={chartStyle}
               selection={this.state.selectedItems}
-            >
-            </Bars>
+            />
           </AxisChart>
         </ResponsiveContainer>
       </div>
@@ -127,9 +126,9 @@ export default class BarChart extends PureComponent {
   }
 
   render() {
-    const {className, style} = this.props;
+    const { className, style } = this.props;
 
-    return(
+    return (
       <div className={classNames(styles['chart-container'], className)} style={style}>
         {this.renderChart()}
       </div>

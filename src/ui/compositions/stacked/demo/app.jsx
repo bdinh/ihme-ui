@@ -164,6 +164,7 @@ class App extends React.Component {
             xLabel: "Population"
           }}
           layerDomain={yearFieldDomain}
+          legend
           legendObject={items}
           legendKey={{
             labelKey: "label",
